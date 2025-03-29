@@ -5,11 +5,12 @@ const ApiError = require('../validators/api-error')
 module.exports = (req, res, next) => {  //! здесь непонятная ошибка
 	try {
 		const authorizationHeader = req.headers.authorization
-		if (Object.keys(req.headers).find(key => key === 'cookie') === undefined || authorizationHeader === undefined && authorizationHeader === "Bearer ") {
+		const cookie = req.headers.cookie.split(";")
+		if (Object.keys(req.headers).find(key => key === 'cookie') === undefined || authorizationHeader === undefined && authorizationHeader === "Bearer " || req.headers.cookie.indexOf("fashionTokenRefresh") === -1) {
 			return ApiError.UnauthorizedError()
 		}
-		const cookie = req.headers.cookie
-		const refresh_token = cookie.slice(cookie.slice(cookie.indexOf('fashionToken='), ), cookie.slice(cookie.indexOf('fashionToken='), ).indexOf(';')).replace('fashionToken=', '')
+		const refresh_token = cookie.filter(cook => cook.includes("fashionTokenRefresh"))[0].replace("fashionTokenRefresh=", "")
+		console.log(refresh_token)
 		if (!refresh_token) {
 			return next(ApiError.NoToken("Refresh token is not found __checkAuth"))
 		}
@@ -20,6 +21,7 @@ module.exports = (req, res, next) => {  //! здесь непонятная ош
 		if (!accessToken) {
 			return next(ApiError.NoToken())
 		}
+		
 		const userData = tokenService.validateAccessToken(accessToken)
 		var val_refresh = false
 		if (!userData) {

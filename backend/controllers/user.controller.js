@@ -67,8 +67,8 @@ class UserController {
 
 	async refresh(req, res, next) {
 		try {
-			const idOfToken = req.headers.cookie.indexOf('fashionToken')
-			const refreshToken = req.headers.cookie.slice(idOfToken, ).replace('fashionToken=', '')
+			const idOfToken = req.headers.cookie.indexOf('fashionTokenRefresh')
+			const refreshToken = req.headers.cookie.slice(idOfToken, ).replace('fashionTokenRefresh=', '')
 			const userData = await UserService.refresh(req, refreshToken)
 			// res.cookie('fashionTokenAccess', accessToken, {
 			// 	maxAge: 15 * 60,
@@ -188,7 +188,7 @@ class UserController {
 		try {
 			const deletedUser = await userService.deleteUser(req)
 			if (deletedUser.rowCount > 0) {
-				res.clearCookie('fashionToken')
+				res.clearCookie('fashionTokenRefresh')
 				res.status(200).json({
 					success: true,
 					message: 'Пользователь удален'

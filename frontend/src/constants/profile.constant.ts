@@ -25,62 +25,53 @@ export const profilePage: IProfilePage[] = [
 		link: "/my_orders",
 		image: "/my_orders.svg"
 	},
+	
 	{
 		title: "Адреса",
 		link: "/locations",
 		image: "/locations.svg"
 	},
 	{
-		title: "Редактировать адреса",
-		link: "/editing_locations",
-		image: "/set_locations.svg"
-	},
-	{
-		title: "Пароль",
-		link: "/passwords",
-		image: "/passwords.svg"
-	},
-	{
-		title: "Выход",
-		link: "/logout",
-		image: "/logout.svg"
-	},
-	{
 		title: "Админ",
 		link: "/admin",
 		image: "/admin.png"
+	},
+	{
+		title: "Смена пароля",
+		link: "/passwords",
+		image: "/passwords.png"
 	},
 ]
 
 export const Blocks: IProfilePage[] = [
 	{
 		title: "Мой профиль",
-		link: "/about",
+		link: "/profile/editing_profile",
 		image: "/profile.svg"
 	},
 	{
 		title: "Заказы",
-		link: "/my_orders",
+		link: "/profile/my_orders",
 		image: "/my_orders.svg"
 	},
 	{
 		title: "Мои адреса",
-		link: "/locations",
+		link: "/profile/locations",
 		image: "/locations.svg"
 	},
 	{
-		title: "Редактировать профиль",
-		link: "/editing_profile",
+		title: "Сменить пароль",
+		link: "/profile/passwords",
 		image: "/settings.svg"
 	},
 	{
-		title: "Избранные товары",
-		link: "/favourites",
-		image: "/fav_products.svg"
+		title: "История заказов",
+		link: "/profile/history",
+		image: "/history_orders.png"
 	},
 	{
 		title: "Выход",
-		link: "/logout",
+		link: "/profile/logout",
 		image: "/logout.svg"
 	}
 ]

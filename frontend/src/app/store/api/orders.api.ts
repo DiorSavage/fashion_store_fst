@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { IOrder } from '@/types/orders.type';
+import type { IOrder, IOrderInfo } from '@/types/orders.type';
 
 export const OrdersApi = createApi({
 	reducerPath: "OrdersApi",
@@ -7,10 +7,10 @@ export const OrdersApi = createApi({
 		baseUrl: "http://localhost:4444/orders/"
 	}),
 	endpoints: (builder) => ({
-		getOrders: builder.query<IOrder[], void>({
+		getOrders: builder.query<IOrderInfo[], void>({
 			query: () => {
 				return {
-					url: '',
+					url: '/',
 					credentials: 'include',
 					headers: {
 						'Authorization': `Bearer ${localStorage.getItem('fashtoken') ? localStorage.getItem('fashtoken') : ''}`

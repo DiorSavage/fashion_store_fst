@@ -60,9 +60,11 @@ const Header = () => {
 				</button>
 				{headerIcons.slice(0, 2).map((item, index) => {
 					if (item.link !== '/auth') {
+						const icon = item.link === "/profile" && userData.avatar !== null ? `http://localhost:4444/uploads/${userData.avatar}` : item.icon
+						console.log(userData.avatar)
 						return (
 							<Link className={`transition-all duration-150 ${index === 0 ? "hidden lg:block" : ""} hover:scale-105 hover:opacity-65`} key={item.icon} href={item.link}>
-								<img className='w-[18px]' src={item.icon} alt={item.alt} />
+								<img className='w-[24px] rounded-full' src={icon} alt={item.alt} />
 							</Link>
 						)
 					} else {
@@ -70,7 +72,7 @@ const Header = () => {
 						item.link = userData.email ? "/profile" : '/auth'
 						return (
 							<Link className={`transition-all duration-150 ${index === 0 ? "hidden lg:block" : ""} hover:scale-105 hover:opacity-65`} key={item.icon} href={item.link}>
-								<img className='w-[18px]' src={item.icon} alt={item.alt} />
+								<img className='w-[18px]' src={`http://localhost:4444/uploads/rickwilson.jpg`} alt={item.alt} />
 							</Link>
 						)
 					}
@@ -81,7 +83,7 @@ const Header = () => {
 					</Link>
 					<span className='hidden lg:block select-none'>11899 ₽</span>
 					<div className='hidden lg:flex bg-site-blue rounded-full size-[20px] items-center justify-center text-white font-bold text-xs'>
-						7
+						{userData.basket ? userData.basket.length : 0}
 					</div>
 				</div>
 			</div>

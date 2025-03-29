@@ -13,7 +13,7 @@ export interface ILoginReponse {
 		cardnumber: string | null;
 		carddate: string | null;
 		cardcvv: string | null;
-		photo: string | null;
+		avatar: string | null;
 	}
 	refreshToken: string;
 	accessToken: string;
@@ -33,6 +33,6 @@ export interface IGetUser {
 		cardnumber: string | null;
 		carddate: string | null;
 		cardcvv: string | null;
-		photo: string | null;
+		avatar: string | null;
 	}
 }

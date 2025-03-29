@@ -15,6 +15,27 @@ create table product (
 	collaboration varchar(255)
 );
 
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Дата создания заказа
+    user_id INTEGER NOT NULL, -- ID пользователя (предполагается наличие таблицы users)
+    status VARCHAR(50) NOT NULL, -- Статус заказа: 'pending', 'shipped', 'delivered' и т.д.
+    total_price INTEGER NOT NULL, -- Общая стоимость заказа
+    delivery_address TEXT, -- Адрес доставки
+    payment_method VARCHAR(50), -- Метод оплаты
+    UNIQUE(id) -- Уникальность ID заказа
+);
+CREATE TABLE order_product (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER NOT NULL REFERENCES "order"(id) ON DELETE CASCADE, -- Связь с заказом
+    product_id INTEGER NOT NULL REFERENCES product(id) ON DELETE CASCADE, -- Связь с продуктом
+    quantity INTEGER NOT NULL CHECK (quantity > 0), -- Количество товара в заказе
+    price_per_unit INTEGER NOT NULL, -- Цена за единицу товара на момент заказа
+    size INTEGER NOT NULL, -- Размер выбранного товара
+    color VARCHAR(255) NOT NULL, -- Цвет выбранного товара
+    UNIQUE(order_id, product_id, size, color) -- Уникальность связи между заказом, продуктом, размером и цветом
+);
+
 create table person (
 	id serial primary key,
 	passwordhash varchar(255),
@@ -28,13 +49,7 @@ create table person (
 
 create table orders (
 	id serial primary key,
-	date varchar(255),
-	products integer[][],
-	status varchar(255),
-	userid integer,
-	sizes integer[],
-	result integer,
-	foreign key (userid) references person(id)
+	
 );
 
 create table address (

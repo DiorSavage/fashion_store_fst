@@ -1,36 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IUser {
-	cardnumber: string;
 	firstname: string;
 	passwordhash: string;
 	basket: string[];
-	carddate: string;
-	cardcvv: string;
 	history: string;
 	surname: string;
 	phone: string;
 	email: string;
 	role: string;
 	id: number;
-	photo: string;
+	avatar: string;
 	status: "authorized" | "unauthorized",
 	loading: boolean
 }
 
 const initialState = {
-	cardnumber: "",
 	firstname: "",
 	basket: [""],
-	carddate: "",
-	cardcvv: "",
 	history: "",
 	surname: "",
 	phone: "",
 	email: "",
 	role: "",
 	id: 0,
-	photo: "",
+	avatar: "",
 	status: "unauthorized",
 	loading: true
 }

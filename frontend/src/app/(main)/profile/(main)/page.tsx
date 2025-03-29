@@ -10,8 +10,9 @@ import OrdersProfile from '../_components/OrdersProfile'
 export default function ProfilePage() {
 	const userData = useAppSelector(state => state.UserSlice)
 	const { data, isLoading, isSuccess, isError } = useGetOrdersQuery()
+	console.log(data)
 
-	if (isSuccess && !isError) {
+	if (userData) {
 		return (
 			<div className='flex flex-col gap-y-9 flex-grow'>
 					{userData.firstname ? <h2 className='font-semibold text-2xl'>Приветствуем, {userData.firstname}</h2> : <h2 className='font-semibold text-2xl'>Добро пожаловать</h2>}
@@ -22,9 +23,9 @@ export default function ProfilePage() {
 							)
 						})}
 					</div>
-					{data.length > 0 && (
+					{/* {data.length > 0 && (
 						<OrdersProfile orders={data} />
-					)}
+					)} */}
 			</div>
 		)
 	} else if (isLoading) {
