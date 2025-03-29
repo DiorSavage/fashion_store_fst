@@ -5,12 +5,12 @@ create table product (
 	title varchar(255),
 	discount integer,
 	mainimg varchar(255),
-	sizes varchar(255) array,
+	sizes integer array,
 	imgs varchar(255) array,
 	article varchar(255),
 	category varchar(255),
-	color varchar(255),
-	brand varchar(255),
+	color varchar(255) array,
+	brand varchar(255) array,
 	model varchar(255),
 	collaboration varchar(255)
 );
@@ -51,6 +51,12 @@ create table address (
 	phone varchar(30),
 	company varchar(30),
 	foreign key (userid) references person(id)
+);
+
+create table tokens (
+	id serial primary key,
+	userid integer unique,
+	refreshToken varchar(255)
 );
 
 -- in basket we have to push array (id_product, price, date, status)

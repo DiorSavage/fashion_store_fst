@@ -4,10 +4,10 @@ const ApiError = require('../validators/api-error')
 
 module.exports = (req, res, next) => {  //! здесь непонятная ошибка
 	try {
-		if (Object.keys(req.headers).find(key => key === 'cookie') === undefined) {
+		const authorizationHeader = req.headers.authorization
+		if (Object.keys(req.headers).find(key => key === 'cookie') === undefined || authorizationHeader === undefined && authorizationHeader === "Bearer ") {
 			return ApiError.UnauthorizedError()
 		}
-		const authorizationHeader = req.headers.authorization
 		const cookie = req.headers.cookie
 		const refresh_token = cookie.slice(cookie.slice(cookie.indexOf('fashionToken='), ), cookie.slice(cookie.indexOf('fashionToken='), ).indexOf(';')).replace('fashionToken=', '')
 		if (!refresh_token) {
@@ -21,7 +21,6 @@ module.exports = (req, res, next) => {  //! здесь непонятная ош
 			return next(ApiError.NoToken())
 		}
 		const userData = tokenService.validateAccessToken(accessToken)
-		// console.log(refresh_token)
 		var val_refresh = false
 		if (!userData) {
 			if (refresh_token) {

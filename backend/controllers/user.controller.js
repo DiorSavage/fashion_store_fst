@@ -26,9 +26,13 @@ class UserController {
 			// 	maxAge: 30 * 24 * 60 * 60 * 1000
 			// })
 			// res.headers.authorization = `Bearer ${accessToken}`
-			res.cookie('fashionToken', refreshToken, {
+			// res.cookie('fashionTokenAccess', accessToken, {
+			// 	maxAge: 15 * 60,
+			// 	httpOnly: true, //? нельзя изменять и получать внутри браузера
+			// })
+			res.cookie('fashionTokenRefresh', refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
-				httpOnly: true, //? нельзя изменять и получать внутри браузера
+				httpOnly: true,
 			})
 			res.status(200).json({
 				success: true,
@@ -66,10 +70,13 @@ class UserController {
 			const idOfToken = req.headers.cookie.indexOf('fashionToken')
 			const refreshToken = req.headers.cookie.slice(idOfToken, ).replace('fashionToken=', '')
 			const userData = await UserService.refresh(req, refreshToken)
-			res.cookie('fashionToken', userData.refreshToken, {
+			// res.cookie('fashionTokenAccess', accessToken, {
+			// 	maxAge: 15 * 60,
+			// 	httpOnly: true,
+			// })
+			res.cookie('fashionTokenRefresh', refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
-				// sameSite: 'lax'
 			})
 			return res.status(200).json(userData)
 		} catch (error) {
@@ -95,17 +102,18 @@ class UserController {
 				// 		expiresIn: '30d'
 				// 	}
 				// )
-				res.cookie('fashionToken', refreshToken, {
+				// res.cookie('fashionTokenAccess', accessToken, {
+				// 	maxAge: 15 * 60,
+				// 	httpOnly: true,
+				// })
+				res.cookie('fashionTokenRefresh', refreshToken, {
 					maxAge: 30 * 24 * 60 * 60 * 1000,
 					httpOnly: true,
-					//! secure: true, - обязательно поставить
-					sameSite: 'lax'
 				})
 				// res.set('Authorization', )
 				res.status(200).json({
 					success: true,
 					userData,
-					refreshToken,
 					accessToken
 				})
 			} catch (error) {
