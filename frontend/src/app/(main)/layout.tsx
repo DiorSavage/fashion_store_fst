@@ -16,6 +16,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
 	useEffect(() => {
 		if (isSuccess && data && !isError) {
+			console.log(data)
 			userDispatch(UserSlice.actions.setUser(data))
 		}
 		else if (isError) {

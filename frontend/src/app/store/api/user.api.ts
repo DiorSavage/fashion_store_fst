@@ -1,15 +1,28 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError, RootState } from '@reduxjs/toolkit/query/react';
 import { IGetUser, ILoginReponse } from '@/types/user.type'
 
+//? Чекнуть 
+// prepareHeaders: headers => {
+// 	const accessToken = localStorage.getItem('access_token')
+// 	if (accessToken) headers.set('authorization', `Bearer ${accessToken}`)
+// 	return headers
+// }
 
 export const UserApi = createApi({
 	reducerPath: 'userApi',
 	baseQuery: fetchBaseQuery({
 		'baseUrl': 'http://localhost:4444/auth/',
-		headers: {
-			'Authorization': `Bearer ${localStorage.getItem('fashtoken') ? localStorage.getItem('fashtoken') : ''}`
+		// headers: {
+		// 	'Authorization': `Bearer ${localStorage.getItem('fashtoken') || ''}`
+		// },
+		prepareHeaders: headers => {
+			if (typeof window !== undefined) {
+				const accessToken = localStorage.getItem('fashtoken')
+				if (accessToken) headers.set('authorization', `Bearer ${accessToken}`)
+				return headers
+			}
 		}
-	}),
+	}),	
 	tagTypes: ['User'],
 	endpoints: (builder) => ({
 		getUser: builder.query<IGetUser['user'], void>({
@@ -17,9 +30,6 @@ export const UserApi = createApi({
 				return {
 					url: 'me',
 					credentials: 'include',
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem('fashtoken') ? localStorage.getItem('fashtoken') : ''}`
-					}
 				}
 			},
 			transformResponse: (response: IGetUser) => {
@@ -51,10 +61,11 @@ export const UserApi = createApi({
 				return {
 					url: 'refresh',
 					credentials: 'include',
-					headers: {
-						'Authorization': `Bearer ${localStorage.getItem('fashtoken') ? localStorage.getItem('fashtoken') : ''}`
-					}
 				}
+			},
+			transformResponse: (response) => {
+				console.log(response)
+				return response
 			},
 			transformErrorResponse: (response: { status: number; message: string }) => {
 				return {

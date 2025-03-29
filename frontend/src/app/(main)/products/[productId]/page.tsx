@@ -36,7 +36,7 @@ const Product = () => { //! НЕ НУЖНЫ ДВА ГЕТ ЗАПРОСА, ПОЭ
 	useEffect(() => {
 		productData && setSum(productData.price.filter((el, index) => sizes.includes(productData.sizes[index])).reduce((a, b) => a + b, 0))
 	}, [sizes, productData])
-
+	console.log(productData?.imgs?.length)
 	return (
 		<>
 		{isSuccess && productData ? (
@@ -51,7 +51,7 @@ const Product = () => { //! НЕ НУЖНЫ ДВА ГЕТ ЗАПРОСА, ПОЭ
 					<span className='text-black font-semibold'>{productData.title}</span>
 				</div>
 				<div className='flex py-12 justify-between w-full'>
-					{productData.imgs !== null ? (
+					{productData.imgs?.length !== 0 ? (
 						<AntCarousel dots autoplay arrows={false}>
 							<div>asdf</div>
 							<div>asdf</div>
@@ -60,7 +60,7 @@ const Product = () => { //! НЕ НУЖНЫ ДВА ГЕТ ЗАПРОСА, ПОЭ
 					) : (
 						<>
 							<div className='w-[40%] flex gap-x-4 items-start'>
-								<img src={`http://localhost:4444${productData.mainimg}`} className='w-full' />
+								<img src={`http://localhost:4444/uploads/${productData.mainimg}`} className='w-full' />
 								<button className='w-[30px] h-[30px]'>
 									<img className='transition-all duration-300 hover:opacity-55' src='/notfav.png'></img>
 								</button>
@@ -79,7 +79,7 @@ const Product = () => { //! НЕ НУЖНЫ ДВА ГЕТ ЗАПРОСА, ПОЭ
 								</div>
 								<div className='w-[80%] flex justify-between items-center'>
 									<div className='flex flex-col gap-y-2 items-start'>
-										<span className='text-xl font-normal tracking-wider text-[#626262]'>{sum}₽</span>
+										<span className='text-xl font-normal tracking-wider text-[#626262]'>{sum}$</span>
 										<span className='flex gap-x-1'>Размеры: {sizes.length === 0 ? (<p className='opacity-50 text-base'>Не выбрано</p>) : sizes.join(', ')}</span>
 									</div>
 									<button disabled={sizes.length === 0} className={`transition-all duration-300 ${sizes.length !== 0 ? "hover:bg-[#49D0FF] hover:text-white bg-black" : "bg-[#03030365]"} h-3/4 px-8 text-xs font-extrabold pt-1 rounded-md text-white`}>Добавить в корзину</button>

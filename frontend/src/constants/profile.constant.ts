@@ -7,7 +7,7 @@ interface IProfilePage {
 export const profilePage: IProfilePage[] = [
 	{
 		title: "Мой аккаунт",
-		link: "/main",
+		link: "/",
 		image: "/profile.svg"
 	},
 	{

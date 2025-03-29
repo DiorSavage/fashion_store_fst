@@ -67,7 +67,7 @@ const Header = () => {
 						)
 					} else {
 						// item.link = userData.email ? { pathname: "/profile", query: { id: userData.id } } : '/auth'
-						item.link = userData.email ? "/profile/main" : '/auth'
+						item.link = userData.email ? "/profile" : '/auth'
 						return (
 							<Link className={`transition-all duration-150 ${index === 0 ? "hidden lg:block" : ""} hover:scale-105 hover:opacity-65`} key={item.icon} href={item.link}>
 								<img className='w-[18px]' src={item.icon} alt={item.alt} />

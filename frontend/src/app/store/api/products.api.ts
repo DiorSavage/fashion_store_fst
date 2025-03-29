@@ -22,9 +22,16 @@ export const ProductsApi = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: "http://localhost:4444/",
 		credentials: 'include',
-		headers: {
-			'Authorization': `Bearer ${window.localStorage.getItem('fashtoken') ? localStorage.getItem('fashtoken') : ''}`
-		},
+		// headers: {
+		// 	'Authorization': `Bearer ${localStorage.getItem('fashtoken') ? localStorage.getItem('fashtoken') : ''}`
+		// },
+		prepareHeaders: headers => {
+			if (typeof window !== undefined) {
+				const accessToken = localStorage.getItem('fashtoken')
+				if (accessToken) headers.set('authorization', `Bearer ${accessToken}`)
+				return headers
+			}
+		}
 	}),
 	tagTypes: ['Product'],
 	endpoints: (builder) => ({
