@@ -25,16 +25,15 @@ export const profilePage: IProfilePage[] = [
 		link: "/my_orders",
 		image: "/my_orders.svg"
 	},
-	
-	{
-		title: "Адреса",
-		link: "/locations",
-		image: "/locations.svg"
-	},
 	{
 		title: "Админ",
 		link: "/admin",
 		image: "/admin.png"
+	},
+	{
+		title: "Корзина",
+		link: "/basket",
+		image: "basket.png"
 	},
 	{
 		title: "Смена пароля",
@@ -50,14 +49,14 @@ export const Blocks: IProfilePage[] = [
 		image: "/profile.svg"
 	},
 	{
+		title: "Корзина",
+		link: "/profile/basket",
+		image: "/basket.png"
+	},
+	{
 		title: "Заказы",
 		link: "/profile/my_orders",
 		image: "/my_orders.svg"
-	},
-	{
-		title: "Мои адреса",
-		link: "/profile/locations",
-		image: "/locations.svg"
 	},
 	{
 		title: "Сменить пароль",

@@ -146,7 +146,6 @@ class UserController {
 	async updateUserRole(req, res) {
 		try {
 			const updatedUser = await UserService.updateUserRole(req, res)
-			console.log(updatedUser)
 			res.status(200).json({
 				success: true,
 				updatedUser: updatedUser

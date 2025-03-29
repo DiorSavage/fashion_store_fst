@@ -11,7 +11,6 @@ class OrderService {
 		products.map((product, index) => {
 			queryProducts += `(${newOrder.rows[0].id}, ${product.id}, ${product.quantity}, ${product.price}, ${product.size}, '${product.color}')${index === products.length - 1 ? "" : ", "}`
 		})
-		console.log(`insert into order_product (order_id, product_id, quantity, price_per_unit, size, color) values ${queryProducts} returning *`)
 		const newOrderProduct = await db.query(`insert into order_product (order_id, product_id, quantity, price_per_unit, size, color) values ${queryProducts} returning *;`)
 		newOrder.rows[0]["products"] = newOrderProduct.rows
 		return newOrder.rows[0]
@@ -23,7 +22,6 @@ class OrderService {
 	}
 	async getOrders(req) {
 		const userid = req.user.id
-		console.log(req.params)
 		// const orders = await db.query('select * from orders where user_id = $1', [userid])
 		const orders = await db.query("select * from orders where user_id = $1", [userid])
 		for (let orderIndex = 0; orderIndex < orders.rowCount; orderIndex++) {

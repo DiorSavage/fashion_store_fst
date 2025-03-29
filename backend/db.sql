@@ -25,14 +25,25 @@ CREATE TABLE orders (
     payment_method VARCHAR(50), -- Метод оплаты
     UNIQUE(id) -- Уникальность ID заказа
 );
+
+create table person_basket (
+	id serial primary key,
+	person_id integer not null references person(id),
+	quantity integer not null,
+	product_id integer not null references product(id),
+	size integer,
+	color varchar(255),
+	unique(product_id, person_id, color, size)
+);
+
 CREATE TABLE order_product (
     id SERIAL PRIMARY KEY,
-    order_id INTEGER NOT NULL REFERENCES "order"(id) ON DELETE CASCADE, -- Связь с заказом
-    product_id INTEGER NOT NULL REFERENCES product(id) ON DELETE CASCADE, -- Связь с продуктом
-    quantity INTEGER NOT NULL CHECK (quantity > 0), -- Количество товара в заказе
-    price_per_unit INTEGER NOT NULL, -- Цена за единицу товара на момент заказа
-    size INTEGER NOT NULL, -- Размер выбранного товара
-    color VARCHAR(255) NOT NULL, -- Цвет выбранного товара
+    order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES product(id) ON DELETE CASCADE,
+    quantity INTEGER NOT NULL CHECK (quantity > 0),
+    price_per_unit INTEGER NOT NULL,
+    size INTEGER NOT NULL,
+    color VARCHAR(255) NOT NULL,
     UNIQUE(order_id, product_id, size, color) -- Уникальность связи между заказом, продуктом, размером и цветом
 );
 
@@ -43,13 +54,7 @@ create table person (
 	surname varchar(20),
 	email varchar(255) unique,
 	phone varchar(255),
-	basket varchar(255)[][],
-	addresses integer array
-);
-
-create table orders (
-	id serial primary key,
-	
+	basket integer []
 );
 
 create table address (

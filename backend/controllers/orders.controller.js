@@ -18,7 +18,6 @@ class OrderController {
 	}
 	async getOrders(req, res) {
 		try {
-			console.log(req)
 			const orders = await orderService.getOrders(req)
 			res.status(200).json({
 				success: true,

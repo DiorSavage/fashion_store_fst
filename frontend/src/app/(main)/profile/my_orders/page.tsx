@@ -23,8 +23,8 @@ export default function MyOrders() {
 				{filteredOrders.length !== 0 ?
 				filteredOrders.map(data => {
 					return (
-						<div key={data.id}>
-							<div className='w-full flex flex-col border bordre-[#E9EAEE] px-8 py-6 gap-y-6'>
+						<div key={data.id} className='flex flex-col gap-y-2 items-center'>
+							<div className='w-full flex flex-col  border bordre-[#E9EAEE] px-8 py-6 gap-y-6'>
 								<div className='flex justify-between w-full items-center'>
 									<div className='flex flex-col gap-y-3'>
 										<h2 className='text-[#121214] font-bold text-lg'>Заказ #{data.id}</h2>
@@ -59,7 +59,6 @@ export default function MyOrders() {
 									})}
 								</div>
 						</div>
-						<button className='transition-all duration-150 w-1/2 mx-auto h-12 bg-green-500 hover:bg-white text-white hover:text-green-500'>Pay</button>
 				</div>
 					)
 				}) : <div className='text-2xl rounded-md shadow-lg items-center gap-y-6 w-full py-5 px-5 flex flex-col'>

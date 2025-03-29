@@ -49,29 +49,39 @@ class UserService {
 	}
 
 	async refresh(req, refreshToken) {
-		const tokenFromDb = await tokenService.findToken(refreshToken)
-		if (!tokenFromDb) {
-			return ApiError.UnauthorizedError()
-		}
-		const user = await db.query('select * from person where id = $1', [req.user.id])
-		const tokens = tokenService.generateToken({
-			id: req.user.id,
-			email: user.email
-		})
-		await tokenService.saveToken(req.user.id, tokens.refreshToken)
-
-		const userDataFromDb = await db.query('select * from person where id = $1', [req.user.id])
-		const { passwordhash, ...userDataWithoutPassword } = userDataFromDb.rows[0]
-		
-		return {
-			...tokens,
-			user: userDataWithoutPassword
+		try {
+			const tokenFromDb = await tokenService.findToken(refreshToken)
+			if (!tokenFromDb) {
+				return ApiError.UnauthorizedError()
+			}
+			// const user = await db.query('select * from person where id = $1', [req.user.id])
+			// const productsBasket = await db.query("select p.* from product p join unnest( (select basket from person where id = $1)) as product_id on p.id = product_id;", [user.rows[0]["id"]])
+			const user = await db.query("select p.id as person_id, p.firstname, p.surname, p.email, p.phone, p.role, p.avatar, pb.quantity, pr.id as product_id, pb.price as product_price, pb.size as product_size, pb.color as product_color, pr.mainimg as product_image from person p left join person_basket as pb on p.id = pb.person_id left join product pr on pb.product_id = pr.id where p.id = $1", [req.user.id])
+			const tokens = tokenService.generateToken({
+				id: req.user.id,
+				email: user.email
+			})
+			await tokenService.saveToken(req.user.id, tokens.refreshToken)
+	
+			const userDataFromDb = await db.query('select * from person where id = $1', [req.user.id])
+			const { passwordhash, ...userDataWithoutPassword } = userDataFromDb.rows[0]
+			
+			return {
+				...tokens,
+				user: {
+					...userDataWithoutPassword,
+					// basket: productsBasket.rows
+				}
+			}
+		} catch(err) {
+			console.log(err)
+			return err
 		}
 	}
 	async getUser(req, res, next) {
 		try {
 			const { id, email } = req.user
-			const person = await db.query('select * from person where id = $1', [id])
+			const person = await db.query("select p.id as person_id, p.firstname, p.surname, p.email, p.phone, p.role, p.avatar, pb.quantity, pr.id as product_id, pb.price as product_price, pb.size as product_size, pb.color as product_color, pr.mainimg as product_image from person p left join person_basket as pb on p.id = pb.person_id left join product pr on pb.product_id = pr.id where p.id = $1", [id])
 			return person.rows[0]
 		} catch (error) {
 			res.status(401).json({
@@ -80,6 +90,7 @@ class UserService {
 			})
 		}
 	}
+
 	async updateUser(req, res) {
 		const { id } = req.params
 		if (!id) {

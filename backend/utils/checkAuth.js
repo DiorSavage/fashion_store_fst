@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {  //! здесь непонятная ош
 			return ApiError.UnauthorizedError()
 		}
 		const refresh_token = cookie.filter(cook => cook.includes("fashionTokenRefresh"))[0].replace("fashionTokenRefresh=", "")
-		console.log(refresh_token)
 		if (!refresh_token) {
 			return next(ApiError.NoToken("Refresh token is not found __checkAuth"))
 		}

@@ -37,7 +37,7 @@ export const headerIcons: { icon: string, link: string | { pathname: string, que
 		alt: "account"
 	},
 	{
-		icon: '/basket.png',
+		icon: '/header_basket.png',
 		link: '/basket',
 		alt: "basket"
 	},
