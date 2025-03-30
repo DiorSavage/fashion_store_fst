@@ -48,29 +48,38 @@ class UserService {
 		return token
 	}
 
+	async updateBasket(req) {
+		try {
+			const basket = req.body
+			// const userid = req.user.id
+			const userid = 3
+			const newBasket = await db.query("update person_basket set quantity = $1 where (size = $2 and product_id = $3 and person_id = $4) returning *", [basket.quantity, basket.product_size, basket.product_id, userid])
+			return newBasket.rows
+		} catch(err) {
+			console.log(err)
+			return err
+		}
+	}
+
 	async refresh(req, refreshToken) {
 		try {
 			const tokenFromDb = await tokenService.findToken(refreshToken)
 			if (!tokenFromDb) {
 				return ApiError.UnauthorizedError()
 			}
-			// const user = await db.query('select * from person where id = $1', [req.user.id])
-			// const productsBasket = await db.query("select p.* from product p join unnest( (select basket from person where id = $1)) as product_id on p.id = product_id;", [user.rows[0]["id"]])
-			const user = await db.query("select p.id as person_id, p.firstname, p.surname, p.email, p.phone, p.role, p.avatar, pb.quantity, pr.id as product_id, pb.price as product_price, pb.size as product_size, pb.color as product_color, pr.mainimg as product_image from person p left join person_basket as pb on p.id = pb.person_id left join product pr on pb.product_id = pr.id where p.id = $1", [req.user.id])
+			const user = await db.query('select * from person where id = $1', [req.user.id])
+			const basket = await db.query("select pb.id as basket_id, pb.quantity, pr.id as product_id, pb.price as product_price, pb.size as product_size, pr.quantity as max_quantity, pb.description as product_description, pb.title as product_title, pb.color as product_color, pr.mainimg as product_image from person_basket as pb left join product as pr on pb.product_id = pr.id inner join person on person.id = pb.person_id where person.id = $1", [req.user.id])
 			const tokens = tokenService.generateToken({
 				id: req.user.id,
-				email: user.email
+				email: user.rows[0].email
 			})
 			await tokenService.saveToken(req.user.id, tokens.refreshToken)
-	
-			const userDataFromDb = await db.query('select * from person where id = $1', [req.user.id])
-			const { passwordhash, ...userDataWithoutPassword } = userDataFromDb.rows[0]
-			
+			const { passwordhash, ...userDataWithoutPassword } = user.rows[0]
 			return {
 				...tokens,
 				user: {
 					...userDataWithoutPassword,
-					// basket: productsBasket.rows
+					basket: basket.rows
 				}
 			}
 		} catch(err) {
@@ -78,6 +87,16 @@ class UserService {
 			return err
 		}
 	}
+
+	async deleteProductFromBasket(req) {
+		try {
+			await db.query("delete from person_basket where id = $1", [req.params.id])
+		} catch(err) {
+			console.log(err)
+			return err
+		}
+	}
+
 	async getUser(req, res, next) {
 		try {
 			const { id, email } = req.user

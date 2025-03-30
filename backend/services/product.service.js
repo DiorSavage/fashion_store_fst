@@ -2,8 +2,8 @@ const db = require('../db')
 
 class ProductService {
 	async createProduct(req, res) {
-		const { price, description, title, sizes, article, discount, category, color, brand, model, collaboration, mainimg } = req.body
-		const newProduct = await db.query('insert into product (discount, description, price, title, sizes, article, category, typeproduct, color, brand, model, collaboration, mainimg) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *', [discount, description, price, title, sizes, article, category.split(',')[0], category.split(',')[1], color, brand, model, collaboration, mainimg])
+		const { price, description, title, sizes, article, quantity, discount, category, color, brand, model, collaboration, mainimg } = req.body
+		const newProduct = await db.query('insert into product (discount, description, price, title, sizes, article, category, typeproduct, color, brand, model, collaboration, mainimg) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *', [discount, description, price, title, sizes, article, category.split(',')[0], category.split(',')[1], color, brand, model, collaboration, mainimg, quantity])
 		return newProduct.rows[0]
 	}
 	

@@ -1,3 +1,16 @@
+export interface IBasket {
+	basket_id: number;
+	product_color: string
+	product_id: number;
+	product_image: string;
+	product_price: number;
+	product_size: number;
+	product_title: string;
+	product_description: string;
+	max_quantity: number;
+	quantity: number;
+}
+
 export interface ILoginReponse {
 	success: boolean;
 	userData: {
@@ -7,12 +20,9 @@ export interface ILoginReponse {
 		surname: string | null;
 		email: string;
 		phone: string | null;
-		basket: string[] | null;
+		basket: IBasket[] | null;
 		history: string | null;
 		role: string;
-		cardnumber: string | null;
-		carddate: string | null;
-		cardcvv: string | null;
 		avatar: string | null;
 	}
 	refreshToken: string;
@@ -27,12 +37,9 @@ export interface IGetUser {
 		surname: string | null;
 		email: string;
 		phone: string | null;
-		basket: string | null;
+		basket: IBasket[] | null;
 		history: string | null;
 		role: string;
-		cardnumber: string | null;
-		carddate: string | null;
-		cardcvv: string | null;
 		avatar: string | null;
 	}
 }

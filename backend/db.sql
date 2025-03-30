@@ -12,7 +12,8 @@ create table product (
 	color varchar(255) array,
 	brand varchar(255) array,
 	model varchar(255),
-	collaboration varchar(255)
+	collaboration varchar(255),
+	quantity integer
 );
 
 CREATE TABLE orders (
@@ -32,6 +33,9 @@ create table person_basket (
 	quantity integer not null,
 	product_id integer not null references product(id),
 	size integer,
+	title varchar(255),
+	max_quantity integer,
+	description varchar(255),
 	color varchar(255),
 	unique(product_id, person_id, color, size)
 );

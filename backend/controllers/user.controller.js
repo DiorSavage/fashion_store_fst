@@ -130,6 +130,30 @@ class UserController {
 			})
 		}
 	}
+	
+	async updateBasket(req, res, next) {
+		try {
+			const newUserData = await UserService.updateBasket(req)
+			res.status(200).json({
+				success: true,
+				userData: newUserData
+			})
+		} catch(err) {
+			next(err)
+		}
+	}
+
+	async deleteProductFromBasket(req, res, next) {
+		try {
+			await UserService.deleteProductFromBasket(req)
+			res.status(200).json({
+				success: true
+			})
+		} catch(err) {
+			next(err)
+		}
+	}
+
 	async getUser(req, res, next) {
 		try {
 			const userData = await UserService.getUser(req)

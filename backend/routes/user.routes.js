@@ -15,6 +15,8 @@ userRouter.put('/auth/update/:id', checkAuth, userController.updateUser)
 userRouter.delete('/auth/delete/:id', checkAuth, userController.deleteUser)
 userRouter.post('/auth/logout', checkAuth, userController.logout)
 userRouter.put('/auth/updateRole', checkAuth, userController.updateUserRole)
+userRouter.put("/auth/update-basket", userController.updateBasket)
+userRouter.delete("/auth/remove-from-basket/:id", userController.deleteProductFromBasket)
 
 // userRouter.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 //   res.json({

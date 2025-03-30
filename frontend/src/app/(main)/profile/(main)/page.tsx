@@ -10,7 +10,7 @@ import OrdersProfile from '../_components/OrdersProfile'
 export default function ProfilePage() {
 	const userData = useAppSelector(state => state.UserSlice)
 	const { data, isLoading, isSuccess, isError } = useGetOrdersQuery()
-	console.log(data)
+	console.log(userData)
 
 	if (userData) {
 		return (

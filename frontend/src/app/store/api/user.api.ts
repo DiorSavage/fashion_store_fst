@@ -1,5 +1,5 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError, RootState } from '@reduxjs/toolkit/query/react';
-import { IGetUser, ILoginReponse } from '@/types/user.type'
+import { IBasket, IGetUser, ILoginReponse } from '@/types/user.type'
 
 //? Чекнуть 
 // prepareHeaders: headers => {
@@ -32,6 +32,7 @@ export const UserApi = createApi({
 					credentials: 'include',
 				}
 			},
+			providesTags: ["User"],
 			transformResponse: (response: IGetUser) => {
 				return response.user
 			}
@@ -45,7 +46,7 @@ export const UserApi = createApi({
 					credentials: 'include' //! тоже для куков, чтобы приходили в клиент и сохранялись
 				}
 			},
-			// providesTags: ['User'],
+			invalidatesTags: ['User'],
 			transformResponse: (response: { accessToken: string, refreshToken: string, userData: ILoginReponse }) => {
 				localStorage.setItem('fashtoken', response.accessToken)
 				// headers().set('Authorization', `Bearer ${response.accessToken}`)
@@ -63,6 +64,7 @@ export const UserApi = createApi({
 					credentials: 'include',
 				}
 			},
+			providesTags: ["User"],
 			transformResponse: (response) => {
 				console.log(response)
 				return response
@@ -78,6 +80,27 @@ export const UserApi = createApi({
 				return response.user
 			}
 		}),
+		updateBasket: builder.mutation<IBasket, IBasket>({
+			query: (body) => {
+				return {
+					url: "update-basket",
+					credentials: 'include',
+					body: body,
+					method: "put"
+				}
+			},
+			invalidatesTags: ["User"]
+		}),
+		deleteFromBasket: builder.mutation<void, number>({
+			query: (basket_id: number) => {
+				return {
+					url: `remove-from-basket/${basket_id}`,
+					credentials: "include",
+					method: "delete"
+				}
+			},
+			invalidatesTags: ["User"]
+		}),
 		register: builder.mutation({
 			query: (data) => {
 				return {
@@ -87,6 +110,7 @@ export const UserApi = createApi({
 					credentials: 'include'
 				}
 			},
+			invalidatesTags: ["User"],
 			transformResponse: (response) => {
 				localStorage.setItem('fashtoken', response.accessToken)
 				// headers().set('Authorization', `Bearer ${response.accessToken}`)
@@ -116,4 +140,4 @@ export const UserApi = createApi({
 	})
 })
 
-export const { useGetUserQuery, useLoginUserMutation, useCheckAuthQuery, useRegisterMutation, useLogoutMutation } = UserApi
+export const { useGetUserQuery, useLoginUserMutation, useCheckAuthQuery, useRegisterMutation, useLogoutMutation, useUpdateBasketMutation, useDeleteFromBasketMutation } = UserApi

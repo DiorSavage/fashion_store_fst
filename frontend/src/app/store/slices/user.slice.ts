@@ -1,9 +1,9 @@
+import { IBasket } from '@/types/user.type'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IUser {
 	firstname: string;
-	passwordhash: string;
-	basket: string[];
+	basket: IBasket[];
 	history: string;
 	surname: string;
 	phone: string;
@@ -15,9 +15,9 @@ interface IUser {
 	loading: boolean
 }
 
-const initialState = {
+const initialState: IUser = {
 	firstname: "",
-	basket: [""],
+	basket: [],
 	history: "",
 	surname: "",
 	phone: "",
